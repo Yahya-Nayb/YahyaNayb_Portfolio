@@ -3,8 +3,12 @@
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink, Github, ChevronDown, ChevronUp, Code2 } from "lucide-react";
 import MagneticButton from "./MagneticButton";
+
+// Ensure ScrollTrigger is registered.
+gsap.registerPlugin(ScrollTrigger);
 
 interface Project {
   id: string;
@@ -18,13 +22,14 @@ interface Project {
 interface ProjectCardProps {
   project: Project;
   index: number;
+  containerAnimation?: gsap.core.Tween | null;
 }
 
 /**
  * ProjectCard Component.
  * Features character-reveal titles, parallax mockups, and expandable technical breakdowns.
  */
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({ project, index, containerAnimation }: ProjectCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -32,36 +37,24 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   const detailsRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !imageRef.current) return;
 
-    // 1. Character Reveal Animation for Title
-    const title = titleRef.current;
-    if (title) {
-      const parent = containerRef.current.parentElement;
-      if (parent) {
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "left center",
-            containerAnimation: gsap.getProperty(parent, "x") as any,
-          },
-        });
-      }
-    }
+    const isHorizontal = !!containerAnimation;
+    const start = isHorizontal ? "left center" : "top 80%";
+    const end = isHorizontal ? "right center" : "bottom center";
 
-    // 2. Parallax effect for the "Mockup"
-    if (imageRef.current) {
-      gsap.to(imageRef.current, {
-        x: -50,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          containerAnimation: window.innerWidth > 768 ? (gsap.globalTimeline as any) : undefined,
-          scrub: true,
-        }
-      });
-    }
-  }, { scope: containerRef });
+    gsap.to(imageRef.current, {
+      x: -50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        containerAnimation: containerAnimation ?? undefined,
+        start,
+        end,
+        scrub: true,
+      },
+    });
+  }, { scope: containerRef, dependencies: [containerAnimation] });
 
   // 3. Technical Breakdown Expansion
   const toggleDetails = () => {

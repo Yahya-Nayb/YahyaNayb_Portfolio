@@ -5,6 +5,9 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Ensure ScrollTrigger is registered before any component uses it.
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * SmoothScroll Provider to integrate Lenis with Next.js and GSAP.
  * Ensures cinematic scrolling feel and synchronizes GSAP animations.
@@ -13,9 +16,6 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Register GSAP Plugins
-    gsap.registerPlugin(ScrollTrigger);
-
     // Initialize Lenis
     const lenis = new Lenis({
       duration: 1.2,
@@ -33,9 +33,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     // Connect Lenis to ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const raf = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(raf);
 
     gsap.ticker.lagSmoothing(0);
 
@@ -46,9 +47,12 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       // but users typically want to know if they're enabled.
     }
 
+    // Recompute trigger positions after Lenis/GSAP tick wiring.
+    ScrollTrigger.refresh();
+
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf as unknown as (time: number) => void);
+      gsap.ticker.remove(raf);
       lenisRef.current = null;
     };
   }, []);

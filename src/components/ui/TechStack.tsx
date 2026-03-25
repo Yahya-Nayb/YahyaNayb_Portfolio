@@ -4,7 +4,11 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { LayoutGrid, Server, Database, Settings } from 'lucide-react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TechCard from './TechCard';
+
+// Ensure ScrollTrigger is registered when this component mounts.
+gsap.registerPlugin(ScrollTrigger);
 
 const TECH_GROUPS = [
   {

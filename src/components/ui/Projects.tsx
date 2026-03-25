@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -56,6 +56,7 @@ const PROJECTS = [
 export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const [containerAnimation, setContainerAnimation] = useState<gsap.core.Tween | null>(null);
 
   useGSAP(
     () => {
@@ -85,38 +86,92 @@ export default function Projects() {
           },
         });
 
-        return () => pin.kill();
+        setContainerAnimation(pin);
+        ScrollTrigger.refresh();
+
+        // Character Reveal "Scramble" Logic (desktop uses horizontal containerAnimation)
+        const titles = section.querySelectorAll<HTMLHeadingElement>('h3');
+        const triggers: ScrollTrigger[] = [];
+
+        titles.forEach((title) => {
+          const originalText = title.innerText;
+          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+          const triggerInstance = ScrollTrigger.create({
+            trigger: title,
+            containerAnimation: pin,
+            start: 'left 80%',
+            onEnter: () => {
+              let iterations = 0;
+              const interval = window.setInterval(() => {
+                title.innerText = originalText
+                  .split('')
+                  .map((_, index) => {
+                    if (index < iterations) return originalText[index];
+                    return chars[Math.floor(Math.random() * 26)];
+                  })
+                  .join('');
+
+                if (iterations >= originalText.length) {
+                  window.clearInterval(interval);
+                  title.innerText = originalText;
+                }
+                iterations += 1 / 3;
+              }, 30);
+            },
+          });
+
+          triggers.push(triggerInstance);
+        });
+
+        return () => {
+          triggers.forEach((t) => t.kill());
+          pin.kill();
+          setContainerAnimation(null);
+        };
       });
 
-      // Character Reveal "Scramble" Logic (Global listener for the projects)
-      const projectTitles = gsap.utils.toArray<HTMLElement>('h3');
-      projectTitles.forEach((title) => {
-        const originalText = title.innerText;
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      // Mobile: normal vertical triggering (no containerAnimation)
+      mm.add('(max-width: 767px)', () => {
+        setContainerAnimation(null);
+        ScrollTrigger.refresh();
 
-        ScrollTrigger.create({
-          trigger: title,
-          containerAnimation: window.innerWidth > 768 ? (gsap.globalTimeline as any) : undefined,
-          start: 'left 80%',
-          onEnter: () => {
-            let iterations = 0;
-            const interval = setInterval(() => {
-              title.innerText = originalText
-                .split('')
-                .map((char, index) => {
-                  if (index < iterations) return originalText[index];
-                  return chars[Math.floor(Math.random() * 26)];
-                })
-                .join('');
+        const titles = section.querySelectorAll<HTMLHeadingElement>('h3');
+        const triggers: ScrollTrigger[] = [];
 
-              if (iterations >= originalText.length) {
-                clearInterval(interval);
-                title.innerText = originalText;
-              }
-              iterations += 1 / 3;
-            }, 30);
-          },
+        titles.forEach((title) => {
+          const originalText = title.innerText;
+          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+          const triggerInstance = ScrollTrigger.create({
+            trigger: title,
+            start: 'top 85%',
+            onEnter: () => {
+              let iterations = 0;
+              const interval = window.setInterval(() => {
+                title.innerText = originalText
+                  .split('')
+                  .map((_, index) => {
+                    if (index < iterations) return originalText[index];
+                    return chars[Math.floor(Math.random() * 26)];
+                  })
+                  .join('');
+
+                if (iterations >= originalText.length) {
+                  window.clearInterval(interval);
+                  title.innerText = originalText;
+                }
+                iterations += 1 / 3;
+              }, 30);
+            },
+          });
+
+          triggers.push(triggerInstance);
         });
+
+        return () => {
+          triggers.forEach((t) => t.kill());
+        };
       });
     },
     { scope: triggerRef },
@@ -141,7 +196,7 @@ export default function Projects() {
 
         {/* Project Cards */}
         {PROJECTS.map((project, idx) => (
-          <ProjectCard key={project.id} project={project} index={idx} />
+          <ProjectCard key={project.id} project={project} index={idx} containerAnimation={containerAnimation} />
         ))}
 
         {/* Closing Card */}
