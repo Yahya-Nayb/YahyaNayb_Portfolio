@@ -1,119 +1,53 @@
 'use client';
 
-import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ExternalLink, Github, ChevronDown, ChevronUp, Code2 } from 'lucide-react';
-import MagneticButton from './MagneticButton';
-
-interface Project {
-  id: string;
-  title: string;
-  story: string;
-  tech: string[];
-  coreValue: string;
-  color: string;
-}
+import Link from 'next/link';
+import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import type { WorkProject } from '@/data/projects';
 
 interface ProjectCardProps {
-  project: Project;
-  index: number;
+  project: WorkProject;
 }
 
-/**
- * ProjectCard Component.
- * Features character-reveal titles, parallax mockups, and expandable technical breakdowns.
- */
-export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // 3. Technical Breakdown Expansion
-  const toggleDetails = () => {
-    setIsExpanded(!isExpanded);
-  };
+export default function ProjectCard({ project }: ProjectCardProps) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(220px circle at ${x}px ${y}px, rgba(255,255,255,0.18), transparent 72%)`;
 
   return (
-    <article className="relative flex h-full w-full items-center justify-center rounded-3xl border border-white/10 bg-black/70 px-6 py-8 backdrop-blur-xl md:px-12">
-      <div className="grid h-full w-full max-w-7xl grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12">
-        {/* Left: Narrative Content */}
-        <div className="z-10 flex flex-col justify-center order-2 md:order-1">
-          <span className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-neutral-500">Project 0{index + 1}</span>
+    <motion.div layout whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 280, damping: 24 }} className={project.gridClassName}>
+      <Link
+        href={`/work/${project.id}`}
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          x.set(event.clientX - rect.left);
+          y.set(event.clientY - rect.top);
+        }}
+        className="group relative block h-full overflow-hidden rounded-3xl border border-white/10 bg-neutral-950">
+        <motion.div aria-hidden className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: spotlight }} />
 
-          <h3 className="text-4xl font-bold tracking-tighter text-white md:text-6xl lg:text-7xl">{project.title}</h3>
+        <div className="absolute inset-0">
+          <img src={project.heroMockup} alt={`${project.title} preview`} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:brightness-110" />
+          <div className="absolute inset-0 bg-black/45" />
+        </div>
 
-          <p className="mt-8 text-lg font-light leading-relaxed text-neutral-400 md:text-xl">{project.story}</p>
+        <div className="relative z-20 flex h-full flex-col p-6 md:p-7">
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">{project.title}</h3>
+            <ArrowUpRight className="mt-1 h-5 w-5 text-neutral-200 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            {project.tech.map((t) => (
-              <span key={t} className="rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-medium text-neutral-300">
-                {t}
+          <p className="mt-3 max-w-xl text-sm text-neutral-200 md:text-base">{project.tagline}</p>
+
+          <div className="mt-auto flex flex-wrap gap-2 pt-6">
+            {project.tech.slice(0, 5).map((tech) => (
+              <span key={tech} className="rounded-full border border-white/25 bg-black/30 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-neutral-100">
+                {tech}
               </span>
             ))}
           </div>
-
-          {/* Technical Reveal Toggle */}
-          <div className="mt-12 overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]">
-            <button onClick={toggleDetails} className="flex w-full items-center justify-between p-6 text-left transition-colors hover:bg-white/[0.04]">
-              <div className="flex items-center gap-3">
-                <Code2 size={20} className="text-neutral-500" />
-                <span className="text-sm font-semibold uppercase tracking-widest text-neutral-300">Technical Breakdown</span>
-              </div>
-              {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isExpanded ? (
-                <motion.div
-                  key="details"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  className="overflow-hidden">
-                  <div className="border-t border-white/5 p-6 pt-4">
-                    <p className="text-sm leading-relaxed text-neutral-500">{project.coreValue}</p>
-                  </div>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
-          </div>
-
-          {/* Magnetic CTA Buttons */}
-          <div className="mt-12 flex gap-6">
-            <MagneticButton strength={0.15} className="h-12 w-40">
-              <a
-                href="#"
-                className="flex h-full w-full items-center justify-center gap-2 rounded-full bg-white text-xs font-bold uppercase tracking-widest text-black transition-transform active:scale-95">
-                Live Demo <ExternalLink size={14} />
-              </a>
-            </MagneticButton>
-            <MagneticButton strength={0.15} className="h-12 w-40">
-              <a
-                href="#"
-                className="flex h-full w-full items-center justify-center gap-2 rounded-full border border-white/20 text-xs font-bold uppercase tracking-widest text-white transition-transform hover:bg-white/5 active:scale-95">
-                GitHub <Github size={14} />
-              </a>
-            </MagneticButton>
-          </div>
         </div>
-
-        {/* Right: Mockup/Visual */}
-        <div className="order-1 relative flex h-[35vh] items-center justify-center md:order-2 md:h-full">
-          <div
-            className={`relative aspect-video w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br ${project.color} p-1 shadow-2xl transition-transform duration-700 hover:scale-[1.02]`}>
-            <div className="h-full w-full rounded-[1.4rem] bg-black/40 backdrop-blur-3xl flex items-center justify-center">
-              <div className="text-center opacity-20">
-                <div className="text-8xl font-black italic tracking-tighter text-white uppercase select-none">{project.title.split(' ')[0]}</div>
-              </div>
-            </div>
-
-            {/* Gloss Overlay */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent" />
-          </div>
-
-          {/* Subtle Background Glow for the mockup */}
-          <div className={`absolute -z-10 h-64 w-64 rounded-full blur-[120px] opacity-20 ${project.color.split(' ')[1]}`} />
-        </div>
-      </div>
-    </article>
+      </Link>
+    </motion.div>
   );
 }

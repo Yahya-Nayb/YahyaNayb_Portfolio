@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { AnimatePresence, motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import type { WorkProject } from '@/data/projects';
 
@@ -10,33 +11,85 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
   const my = useMotionValue(0);
   const tx = useMotionTemplate`${mx}px`;
   const ty = useMotionTemplate`${my}px`;
+  const [galleryView, setGalleryView] = useState<'all' | 'desktop' | 'mobile'>('all');
+
+  const galleryItems = galleryView === 'all' ? project.gallery : project.gallery.filter((item) => item.viewport === galleryView);
 
   return (
     <div className="bg-black text-white">
-      <header className="mx-auto max-w-7xl px-6 pb-10 pt-28 md:px-10 lg:px-16">
+      <motion.div
+        className="fixed top-7 left-7 z-50"
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          const dx = event.clientX - (rect.left + rect.width / 2);
+          const dy = event.clientY - (rect.top + rect.height / 2);
+          mx.set(dx * 0.18);
+          my.set(dy * 0.18);
+        }}
+        onMouseLeave={() => {
+          mx.set(0);
+          my.set(0);
+        }}
+        style={{ x: tx, y: ty }}
+        transition={{ type: 'spring', stiffness: 240, damping: 18 }}>
+        <Link
+          href="/#work"
+          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-5 py-3 text-xs uppercase tracking-[0.18em] text-white backdrop-blur-xl transition-colors hover:border-white/30">
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </Link>
+      </motion.div>
+      <motion.header layout className="mx-auto max-w-7xl px-6 pb-10 pt-28 md:px-10 lg:px-16">
         <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">Case Study</p>
         <h1 className="mt-5 text-5xl font-semibold tracking-tight md:text-7xl">{project.title}</h1>
         <p className="mt-5 max-w-3xl text-base text-neutral-300 md:text-lg">{project.summary}</p>
-      </header>
+      </motion.header>
 
       <section className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
         <div className="rounded-3xl border border-white/10 bg-neutral-950 p-3 md:p-4">
-          <div className="h-[65vh] overflow-y-auto rounded-2xl border border-white/10">
-            <img src={project.heroMockup} alt={`${project.title} main page mockup`} className="h-auto min-h-[120vh] w-full object-cover" />
+          <div className="relative h-[65vh] overflow-hidden rounded-2xl border border-white/10">
+            <motion.img
+              src={project.heroMockup}
+              alt={`${project.title} main page mockup`}
+              className="h-auto min-h-[130vh] w-full object-cover"
+              animate={{ y: ['0%', '-38%', '0%'] }}
+              transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
+            />
           </div>
         </div>
       </section>
 
       <section className="mx-auto mt-20 max-w-7xl px-6 md:px-10 lg:px-16">
-        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Image Gallery</h2>
-        <div className="mt-8 columns-1 gap-4 md:columns-2">
-          {project.gallery.map((item) => (
-            <motion.figure key={item.id} whileHover={{ scale: 1.01 }} className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 p-2">
-              <img src={item.src} alt={item.alt} className="h-auto w-full rounded-xl object-cover" />
-              <figcaption className="px-2 pb-1 pt-3 text-xs uppercase tracking-widest text-neutral-500">{item.viewport} view</figcaption>
-            </motion.figure>
-          ))}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Image Gallery</h2>
+          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-neutral-950/80 p-1">
+            {(['all', 'desktop', 'mobile'] as const).map((view) => (
+              <button
+                key={view}
+                onClick={() => setGalleryView(view)}
+                className={`rounded-full px-4 py-1.5 text-xs uppercase tracking-wider transition ${galleryView === view ? 'bg-white text-black' : 'text-neutral-300 hover:bg-white/10'}`}>
+                {view}
+              </button>
+            ))}
+          </div>
         </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={galleryView}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className="mt-8 columns-1 gap-4 md:columns-2">
+            {galleryItems.map((item) => (
+              <motion.figure key={item.id} layout whileHover={{ scale: 1.01 }} className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 p-2">
+                <img src={item.src} alt={item.alt} className="h-auto w-full rounded-xl object-cover" />
+                <figcaption className="px-2 pb-1 pt-3 text-xs uppercase tracking-widest text-neutral-500">{item.viewport} view</figcaption>
+              </motion.figure>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </section>
 
       <section className="mx-auto mt-20 max-w-7xl px-6 pb-24 md:px-10 lg:px-16">
@@ -62,29 +115,6 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
           </article>
         </div>
       </section>
-
-      <motion.div
-        className="fixed bottom-7 left-7 z-50"
-        onMouseMove={(event) => {
-          const rect = event.currentTarget.getBoundingClientRect();
-          const dx = event.clientX - (rect.left + rect.width / 2);
-          const dy = event.clientY - (rect.top + rect.height / 2);
-          mx.set(dx * 0.18);
-          my.set(dy * 0.18);
-        }}
-        onMouseLeave={() => {
-          mx.set(0);
-          my.set(0);
-        }}
-        style={{ x: tx, y: ty }}
-        transition={{ type: 'spring', stiffness: 240, damping: 18 }}>
-        <Link
-          href="/#work"
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-5 py-3 text-xs uppercase tracking-[0.18em] text-white backdrop-blur-xl transition-colors hover:border-white/30">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Work
-        </Link>
-      </motion.div>
     </div>
   );
 }
