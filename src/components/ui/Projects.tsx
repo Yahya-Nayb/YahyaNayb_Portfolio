@@ -1,212 +1,74 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ProjectCard from './ProjectCard';
-
-const PROJECTS = [
-  {
-    id: 'ghayth',
-    title: 'GhaythApp',
-    story: 'Streamlining property management by transforming manual processes into a unified, real-time financial tracking ecosystem.',
-    tech: ['Next.js', 'Node.js (Express)', 'MongoDB'],
-    coreValue: 'Optimized decision-making through transparent, live budgeting and transaction monitoring.',
-    color: 'from-blue-600 to-cyan-500',
-  },
-  {
-    id: 'freelance',
-    title: 'Freelance Hub',
-    story: 'Architecting a seamless bridge between freelancers and clients, focused on trust and instant communication.',
-    tech: ['React', 'Laravel', 'Socket.io', 'MySQL'],
-    coreValue: 'Solved the latency gap in service-based interactions with an event-driven architecture.',
-    color: 'from-purple-600 to-pink-500',
-  },
-  {
-    id: 'velostream',
-    title: 'VeloStream',
-    story: 'Engineering a minimalist and rapid media processing engine designed for high-speed video streaming and downloading.',
-    tech: ['Next.js', 'yt-dlp', 'Node.js'],
-    coreValue: 'Demonstrates the ability to manage server-side processes and external CLI tools at scale.',
-    color: 'from-red-600 to-orange-500',
-  },
-  {
-    id: 'domainhunt',
-    title: 'DomainHunt',
-    story: "A specialized tool for the modern domainer, utilizing AI to analyze, filter, and 'hunt' for high-value digital real estate.",
-    tech: ['Next.js', 'Tailwind CSS', 'AI APIs'],
-    coreValue: 'Bridges Full Stack Development and the Domaining industry with intelligent data analysis.',
-    color: 'from-emerald-600 to-teal-500',
-  },
-  {
-    id: 'gescanner',
-    title: 'GeScanner',
-    story: 'An advanced scanning solution designed to automate data extraction and provide structured insights from complex inputs.',
-    tech: ['Next.js', 'Node.js', 'AI Workflows'],
-    coreValue: 'Showcases Vibe Coding efficiency—building complex utility tools rapidly using AI-enhanced workflows.',
-    color: 'from-neutral-600 to-neutral-400',
-  },
-];
+import Link from 'next/link';
+import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import { WORK_PROJECTS } from '@/data/projects';
 
 /**
  * Projects Section Component.
- * Implements a horizontal scroll gallery for desktop and vertical stack for mobile.
+ * Interactive spotlight bento grid linked to dynamic work pages.
  */
 export default function Projects() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const [containerAnimation, setContainerAnimation] = useState<gsap.core.Tween | null>(null);
-
-  useGSAP(
-    () => {
-      // Register ScrollTrigger
-      gsap.registerPlugin(ScrollTrigger);
-
-      const section = sectionRef.current;
-      const trigger = triggerRef.current;
-
-      if (!section || !trigger) return;
-
-      // Only horizontal scroll on desktop (md and up)
-      const mm = gsap.matchMedia();
-
-      mm.add('(min-width: 768px)', () => {
-        const pin = gsap.to(section, {
-          x: () => -(section.scrollWidth - window.innerWidth),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: trigger,
-            start: 'top top',
-            end: () => `+=${section.scrollWidth}`,
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        setContainerAnimation(pin);
-        ScrollTrigger.refresh();
-
-        // Character Reveal "Scramble" Logic (desktop uses horizontal containerAnimation)
-        const titles = section.querySelectorAll<HTMLHeadingElement>('h3');
-        const triggers: ScrollTrigger[] = [];
-
-        titles.forEach((title) => {
-          const originalText = title.innerText;
-          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-          const triggerInstance = ScrollTrigger.create({
-            trigger: title,
-            containerAnimation: pin,
-            start: 'left 80%',
-            onEnter: () => {
-              let iterations = 0;
-              const interval = window.setInterval(() => {
-                title.innerText = originalText
-                  .split('')
-                  .map((_, index) => {
-                    if (index < iterations) return originalText[index];
-                    return chars[Math.floor(Math.random() * 26)];
-                  })
-                  .join('');
-
-                if (iterations >= originalText.length) {
-                  window.clearInterval(interval);
-                  title.innerText = originalText;
-                }
-                iterations += 1 / 3;
-              }, 30);
-            },
-          });
-
-          triggers.push(triggerInstance);
-        });
-
-        return () => {
-          triggers.forEach((t) => t.kill());
-          pin.kill();
-          setContainerAnimation(null);
-        };
-      });
-
-      // Mobile: normal vertical triggering (no containerAnimation)
-      mm.add('(max-width: 767px)', () => {
-        setContainerAnimation(null);
-        ScrollTrigger.refresh();
-
-        const titles = section.querySelectorAll<HTMLHeadingElement>('h3');
-        const triggers: ScrollTrigger[] = [];
-
-        titles.forEach((title) => {
-          const originalText = title.innerText;
-          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-          const triggerInstance = ScrollTrigger.create({
-            trigger: title,
-            start: 'top 85%',
-            onEnter: () => {
-              let iterations = 0;
-              const interval = window.setInterval(() => {
-                title.innerText = originalText
-                  .split('')
-                  .map((_, index) => {
-                    if (index < iterations) return originalText[index];
-                    return chars[Math.floor(Math.random() * 26)];
-                  })
-                  .join('');
-
-                if (iterations >= originalText.length) {
-                  window.clearInterval(interval);
-                  title.innerText = originalText;
-                }
-                iterations += 1 / 3;
-              }, 30);
-            },
-          });
-
-          triggers.push(triggerInstance);
-        });
-
-        return () => {
-          triggers.forEach((t) => t.kill());
-        };
-      });
-    },
-    { scope: triggerRef },
-  );
-
   return (
-    <div ref={triggerRef} id="work" className="overflow-hidden bg-black">
-      {/* Horizontal Container */}
-      <div ref={sectionRef} className="flex h-screen w-fit flex-nowrap">
-        {/* Section Intro Card */}
-        <div className="flex h-screen w-screen shrink-0 flex-col items-center justify-center bg-black px-8 text-center">
-          <h2 className="text-sm font-medium uppercase tracking-[0.4em] text-neutral-500">Selected Works</h2>
-          <p className="mt-6 text-4xl font-light tracking-tight text-white md:text-7xl lg:text-8xl">
-            Technical <span className="font-semibold italic">Storytelling</span>.
-          </p>
-          <div className="mt-12 flex items-center gap-4 text-neutral-500">
-            <span className="h-px w-12 bg-neutral-800"></span>
-            <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
-            <span className="h-px w-12 bg-neutral-800"></span>
-          </div>
+    <section id="work" className="relative bg-black px-6 py-24 md:px-10 lg:px-16">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 md:mb-14">
+          <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">Selected Works</p>
+          <h2 className="mt-4 text-3xl font-light tracking-tight text-white md:text-5xl">
+            Spotlight <span className="font-semibold italic">Grid</span>
+          </h2>
         </div>
 
-        {/* Project Cards */}
-        {PROJECTS.map((project, idx) => (
-          <ProjectCard key={project.id} project={project} index={idx} containerAnimation={containerAnimation} />
-        ))}
-
-        {/* Closing Card */}
-        <div className="flex h-screen w-screen shrink-0 flex-col items-center justify-center bg-black px-8 text-center">
-          <p className="text-2xl font-light text-neutral-400 md:text-4xl">Want to see more?</p>
-          <a href="https://github.com/yahya-nayb" target="_blank" rel="noopener noreferrer" className="group mt-8 text-4xl font-bold tracking-tighter text-white md:text-6xl">
-            Check GitHub <span className="inline-block transition-transform group-hover:translate-x-4">→</span>
-          </a>
+        <div className="grid auto-rows-[220px] grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[240px]">
+          {WORK_PROJECTS.map((project) => (
+            <SpotlightCard key={project.id} project={project} />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
+  );
+}
+
+function SpotlightCard({ project }: { project: (typeof WORK_PROJECTS)[number] }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(220px circle at ${x}px ${y}px, rgba(255,255,255,0.18), transparent 70%)`;
+
+  return (
+    <motion.div whileHover={{ scale: 1.015 }} transition={{ type: 'spring', stiffness: 280, damping: 24 }} className={project.gridClassName}>
+      <Link
+        href={`/work/${project.id}`}
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          x.set(event.clientX - rect.left);
+          y.set(event.clientY - rect.top);
+        }}
+        className="group relative block h-full overflow-hidden rounded-3xl border border-white/10 bg-neutral-950 p-6 md:p-7">
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ background: spotlight }}
+        />
+        <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${project.accent} opacity-60`} />
+
+        <div className="relative z-10 flex h-full flex-col">
+          <div className="flex items-center justify-between">
+            <h3 className="text-2xl font-semibold tracking-tight text-white">{project.title}</h3>
+            <ArrowUpRight className="h-5 w-5 text-neutral-300 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </div>
+
+          <p className="mt-3 max-w-md text-sm text-neutral-300">{project.tagline}</p>
+
+          <div className="mt-auto flex flex-wrap gap-2 pt-6">
+            {project.tech.slice(0, 4).map((tech) => (
+              <span key={tech} className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-wider text-neutral-200">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Link>
+    </motion.div>
   );
 }

@@ -15,7 +15,6 @@ export default function Home() {
       <main className="flex flex-col bg-black">
         <Hero />
         <TechStack />
-
         <Projects />
       </main>
     </>
