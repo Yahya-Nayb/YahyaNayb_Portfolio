@@ -84,28 +84,47 @@ export default function Hero() {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
         </span>
-        <span className="text-xs font-medium uppercase tracking-widest text-neutral-400">Based in Agadir, Morocco</span>
+        <span className="text-xs font-medium uppercase tracking-widest text-neutral-400">Open for freelance projects or full-time work</span>
       </div>
 
-      {/* Main Heading */}
-      <div className="z-10 flex flex-col items-center text-center">
-        <h1 ref={nameRef} className="overflow-hidden text-[clamp(3.5rem,15vw,12rem)] font-bold leading-[0.85] tracking-tighter">
-          YAHYA NAYB
-        </h1>
+{/* Hero Section Content */}
+<div className="z-10 flex flex-col items-center text-center px-4">
+  
+  {/* Status Badge: Open for Work */}
+  <div className="mb-8 flex items-center gap-2 overflow-hidden rounded-full border border-white/5 bg-white/5 px-4 py-1.5 backdrop-blur-md">
+    <span className="relative flex h-2 w-2">
+      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+    </span>
+    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">
+      Open for freelance & Work
+    </span>
+  </div>
 
-        <div ref={sublineRef} className="mt-8 max-w-2xl">
-          <h2 className="text-xl font-light text-neutral-300 md:text-3xl">Full Stack Developer</h2>
-          <p className="mt-4 text-sm font-light leading-relaxed text-neutral-500 md:text-lg">Transforming complex needs into efficient technical solutions.</p>
-        </div>
+  {/* The Big H1 */}
+  <h1 className="max-w-6xl text-[clamp(2.5rem,8vw,9rem)] font-black leading-[0.9] tracking-tighter text-white uppercase italic">
+    Building <span className="text-neutral-500 not-italic">robust</span> <br />
+    web & data-driven <br />
+    <span className="bg-gradient-to-r from-white to-neutral-600 bg-clip-text text-transparent">applications</span> with precision.
+  </h1>
 
-        <div ref={ctaRef} className="mt-5">
-          <MagneticButton strength={0.2} className="h-16 w-48">
-            <button className="group relative cursor-pointer overflow-hidden rounded-full border border-white/10 bg-white px-8 py-4 text-sm font-semibold text-black transition-transform active:scale-95">
-              <span className="relative z-10">View Projects</span>
-            </button>
-          </MagneticButton>
-        </div>
-      </div>
+  {/* Subline: Identity based on CV [cite: 4, 9] */}
+  <div className="mt-12 max-w-2xl">
+    <p className="text-sm font-light leading-relaxed text-neutral-500 md:text-xl tracking-wide">
+      <span className="text-white font-medium">Yahya Nayb</span> — Full Stack Developer.  
+      Transforming complex needs into efficient technical solutions. 
+    </p>
+  </div>
+
+  {/* CTA Button */}
+  <div className="mt-10">
+    <MagneticButton strength={0.2} className="h-16 w-52">
+      <button className="group relative w-full h-full overflow-hidden rounded-full border border-white/10 bg-white text-black transition-all hover:bg-neutral-200 active:scale-95">
+        <span className="relative z-10 text-sm font-bold uppercase tracking-widest">Explore Systems</span>
+      </button>
+    </MagneticButton>
+  </div>
+</div>
 
       {/* Ticker at bottom of hero */}
       <div className="absolute bottom-12 w-full">

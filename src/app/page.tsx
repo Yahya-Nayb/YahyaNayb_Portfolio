@@ -5,6 +5,7 @@ import Hero from '@/components/ui/Hero';
 import TechStack from '@/components/ui/TechStack';
 import ExperienceTimeline from '@/components/ui/ExperienceTimeline';
 import Projects from '@/components/ui/Projects';
+import Footer from '@/components/ui/Footer';
 import NoiseOverlay from '@/components/ui/NoiseOverlay';
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         <TechStack />
         <ExperienceTimeline />
         <Projects />
+        <Footer />
       </main>
     </>
   );
