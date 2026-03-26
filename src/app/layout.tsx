@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Yahya Nayb | Full Stack Developer",
-  description: "Portfolio of Yahya Nayb, Full Stack Developer from Agadir.",
+  description: "Portfolio of Yahya Nayb, Full Stack Developer.",
 };
 
 export default function RootLayout({
