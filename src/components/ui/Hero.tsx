@@ -1,135 +1,118 @@
-'use client';
+"use client";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ArrowUpRight, Link } from "lucide-react";
 
-import { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import SplitType from 'split-type';
-import MagneticButton from './MagneticButton';
-import TechTicker from './TechTicker';
+const Hero = () => {
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
 
-/**
- * Hero Section Component.
- * Implements high-end GSAP entrance animations and spotlight effect.
- */
-export default function Hero() {
-  const container = useRef<HTMLDivElement>(null);
-  const nameRef = useRef<HTMLHeadingElement>(null);
-  const sublineRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const spotlightRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      // 1. Text Splitting & Name Animation
-      if (nameRef.current) {
-        const split = new SplitType(nameRef.current, { types: 'chars' });
-
-        gsap.from(split.chars, {
-          y: 100,
-          opacity: 0,
-          stagger: 0.05,
-          duration: 1,
-          ease: 'back.out(1.7)',
-        });
-      }
-
-      // 2. Sub-headline Animation
-      gsap.from(sublineRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.5,
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Reveal Animation for Text Lines
+      gsap.from(".reveal-line", {
+        y: 150,
+        skewY: 7,
+        duration: 1.5,
+        ease: "expo.out",
+        stagger: 0.2,
       });
 
-      // 3. Location Badge & CTA Animation
-      gsap.from([badgeRef.current, ctaRef.current], {
-        y: 20,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: 'power3.out',
-        delay: 0.8,
-      });
-
-      // 4. Spotlight Effect (Mouse Follow)
-      const onMouseMove = (e: MouseEvent) => {
+      // 2. Subtle Mouse Parallax
+      const handleMouseMove = (e: MouseEvent) => {
         const { clientX, clientY } = e;
-        gsap.to(spotlightRef.current, {
-          left: clientX,
-          top: clientY,
-          duration: 0.5,
-          ease: 'power2.out',
+        const xPos = (clientX / window.innerWidth - 0.5) * 30;
+        const yPos = (clientY / window.innerHeight - 0.5) * 30;
+
+        gsap.to(".parallax-text", {
+          x: xPos,
+          y: yPos,
+          duration: 1,
+          ease: "power2.out",
         });
       };
 
-      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, containerRef);
 
-      return () => {
-        window.removeEventListener('mousemove', onMouseMove);
-      };
-    },
-    { scope: container },
-  );
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section ref={container} className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-6 pt-4 pb-12">
-      {/* Spotlight Backdrop */}
-      <div ref={spotlightRef} className="pointer-events-none absolute h-[50vmax] w-[50vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.03] blur-[100px] z-0" />
+    <section 
+      ref={containerRef}
+      className="relative min-h-screen w-full bg-[#080808] overflow-hidden flex items-center px-[5%] my-8 md:px-[6%]">
+      {/* Background Noise Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
-      {/* Location Badge */}
-      <div ref={badgeRef} className="z-10 mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-        </span>
-        <span className="text-xs font-medium uppercase tracking-widest text-neutral-400">Open for freelance projects or full-time work</span>
+      <div className="relative z-10 w-full max-w-[1400px]">
+        {/* Status Tag */}
+        <div className="mb-8 flex items-center gap-3 overflow-hidden">
+          <span className="h-[1px] w-12 bg-neutral-700" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400">
+            Open for freelance or full-time work  
+          </span>
+        </div>
+
+        {/* Main Typography Header */}
+        <div className="flex flex-col gap-0 leading-[0.8] tracking-tighter">
+          <div className="overflow-hidden">
+            <h1 className="reveal-line text-[clamp(4rem,15vw,12rem)] font-black text-white uppercase italic">
+              Crafting
+            </h1>
+          </div>
+          
+          <div className="overflow-hidden mt-[-2vw] relative flex flex-col items-center">
+            <h1 className="reveal-line parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase text-transparent mb-[-9vw] clip-path-top"
+                style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.73)" }}>
+              Digital
+            </h1>
+            <h1 className="reveal-line parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase transition-all duration-1000 select-none ml-4"
+                  style={{ 
+                    clipPath: "inset(50% 0 0 0)",
+                    color: "#e7e7e7ff",
+                    WebkitTextStroke: "1px rgba(115, 115, 115, 0.2)",
+                    filter: "blur(0.5px) drop-shadow(0 0 5px rgba(255,255,255,0.02))", 
+                  }}>
+                Digital
+              </h1>
+          </div>
+          <div className="overflow-hidden mt-[-2vw] flex flex-col md:flex-row md:items-end gap-8">
+            <h1 className="reveal-line text-[clamp(4rem,15vw,12rem)] font-black text-white uppercase">
+              Systems
+            </h1>
+            
+            {/* Job Title / Subheading */}
+            <div className="reveal-line mb-[2vw] max-w-sm">
+              <p className="font-mono text-[12px] leading-relaxed text-neutral-400 uppercase tracking-widest">
+                [ Full Stack Architect ] <br />
+                Specialized in High-Performance <br />
+                Next.js & Node JS & Laravel Ecosystems.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 flex items-center gap-12 overflow-hidden">
+          <a href="/#work" className="reveal-line group relative flex items-center gap-4 cursor-pointer text-white hover:text-neutral-400 transition-colors">
+            <span className="text-sm font-bold uppercase tracking-widest">View My Work</span>
+            <div className="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+              <ArrowUpRight size={20} />
+            </div>
+          </a>
+        </div>
       </div>
 
-{/* Hero Section Content */}
-<div className="z-10 flex flex-col items-center text-center px-4">
-  
-  {/* Status Badge: Open for Work */}
-  <div className="mb-8 flex items-center gap-2 overflow-hidden rounded-full border border-white/5 bg-white/5 px-4 py-1.5 backdrop-blur-md">
-    <span className="relative flex h-2 w-2">
-      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
-    </span>
-    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">
-      Open for freelance & Work
-    </span>
-  </div>
-
-  {/* The Big H1 */}
-  <h1 className="max-w-6xl text-[clamp(2.5rem,8vw,9rem)] font-black leading-[0.9] tracking-tighter text-white uppercase italic">
-    Building <span className="text-neutral-500 not-italic">robust</span> <br />
-    web & data-driven <br />
-    <span className="bg-gradient-to-r from-white to-neutral-600 bg-clip-text text-transparent">applications</span> with precision.
-  </h1>
-
-  {/* Subline: Identity based on CV [cite: 4, 9] */}
-  <div className="mt-12 max-w-2xl">
-    <p className="text-sm font-light leading-relaxed text-neutral-500 md:text-xl tracking-wide">
-      <span className="text-white font-medium">Yahya Nayb</span> — Full Stack Developer.  
-      Transforming complex needs into efficient technical solutions. 
-    </p>
-  </div>
-
-  {/* CTA Button */}
-  <div className="mt-10">
-    <MagneticButton strength={0.2} className="h-16 w-52">
-      <button className="group relative w-full h-full overflow-hidden rounded-full border border-white/10 bg-white text-black transition-all hover:bg-neutral-200 active:scale-95">
-        <span className="relative z-10 text-sm font-bold uppercase tracking-widest">Explore Systems</span>
-      </button>
-    </MagneticButton>
-  </div>
-</div>
-
-      {/* Ticker at bottom of hero */}
-      <div className="absolute bottom-12 w-full">
-        <TechTicker />
+      {/* Vertical Side Text */}
+      <div className="absolute right-10 bottom-45 hidden md:block rotate-90 origin-right">
+        <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-[1em]">
+          Yahya Nayb Full stack
+        </span>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;
