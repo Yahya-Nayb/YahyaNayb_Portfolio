@@ -3,9 +3,9 @@
 import Navbar from '@/components/ui/Navbar';
 import Hero from '@/components/ui/Hero';
 import TechStack from '@/components/ui/TechStack';
+import ExperienceTimeline from '@/components/ui/ExperienceTimeline';
 import Projects from '@/components/ui/Projects';
 import NoiseOverlay from '@/components/ui/NoiseOverlay';
-import { Github, Linkedin, Twitter } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -15,6 +15,7 @@ export default function Home() {
       <main className="flex flex-col bg-black">
         <Hero />
         <TechStack />
+        <ExperienceTimeline />
         <Projects />
       </main>
     </>
