@@ -143,7 +143,7 @@ export default function ExperienceTimeline() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} id="about" className="relative py-24 px-4 md:px-0 bg-black overflow-hidden">
+    <section ref={containerRef} id="about" className="relative py-24 px-4 md:px-0 bg-black overflow-x-hidden">
       <div className="max-w-6xl mx-auto mb-20 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
         <p className="text-neutral-400 max-w-2xl mx-auto">
@@ -195,13 +195,13 @@ export default function ExperienceTimeline() {
                 </div>
 
                 {/* Right Side Content (Desktop) */}
-                <div className={`px-12 ${isLeft ? 'md:invisible' : ''}`}>
-                   <div className="md:hidden pl-4">
-                     <ExperienceCard item={item} index={index} isLeft={false} />
-                   </div>
-                   <div className="hidden md:block">
-                     {!isLeft && <ExperienceCard item={item} index={index} isLeft={false} />}
-                   </div>
+                <div className={`px-1 md:px-12 w-full ${isLeft ? 'md:invisible' : ''}`}>
+                  <div className="md:hidden pl-8">
+                    <ExperienceCard item={item} index={index} isLeft={false} />
+                  </div>
+                  <div className="hidden md:block">
+                    {!isLeft && <ExperienceCard item={item} index={index} isLeft={false} />}
+                  </div>
                 </div>
               </div>
             );
@@ -220,8 +220,8 @@ function ExperienceCard({ item, index, isLeft }: { item: ExperienceItem, index: 
     `}>
       {/* Background Year */}
       <span className={`
-        absolute -top-10 ${isLeft ? '-right-4' : '-left-4'} 
-        text-7xl md:text-8xl font-black text-white/[0.03] pointer-events-none select-none
+        absolute -top-10 ${isLeft ? '-right-2' : '-left-2'} 
+        text-5xl md:text-8xl font-black text-white/[0.03] pointer-events-none select-none
         group-hover:text-white/[0.05] transition-colors
       `}>
         {item.year}

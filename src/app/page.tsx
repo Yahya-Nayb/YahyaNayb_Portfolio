@@ -11,7 +11,7 @@ import NoiseOverlay from '@/components/ui/NoiseOverlay';
 
 export default function Home() {
   return (
-    <>
+    <main className="relative w-full overflow-x-hidden">
       <NoiseOverlay />
       <Navbar />
       <main className="flex flex-col bg-black">
@@ -22,6 +22,6 @@ export default function Home() {
         <Contact />
         <Footer />
       </main>
-    </>
+    </main>
   );
 }

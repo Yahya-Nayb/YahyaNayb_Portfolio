@@ -43,7 +43,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
   },
   {
     id: 'ghaythapp-role',
-    year: '2025 - Present',
+    year: '2025 - 2026',
     title: 'Full Stack Developer (5-Month Internship)',
     company: 'GhaythApp',
     location: 'Agadir, Morocco',

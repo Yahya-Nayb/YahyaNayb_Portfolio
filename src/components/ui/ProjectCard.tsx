@@ -31,17 +31,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <div className="absolute inset-0 bg-black/45" />
         </div>
 
-        <div className="relative z-20 flex h-full flex-col p-6 md:p-7">
+        <div className="relative z-20 flex h-full flex-col p-5 md:p-7">
           <div className="flex items-start justify-between gap-4">
             <h3 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">{project.title}</h3>
             <ArrowUpRight className="mt-1 h-5 w-5 text-neutral-200 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </div>
 
-          <p className="mt-3 max-w-xl text-sm text-neutral-200 md:text-base">{project.tagline}</p>
+          <p className="mt-2 line-clamp-2 max-w-xl text-sm text-neutral-200 md:text-base">{project.tagline}</p>
 
           <div className="mt-auto flex flex-wrap gap-2 pt-6">
             {project.tech.slice(0, 5).map((tech) => (
-              <span key={tech} className="rounded-full border border-white/25 bg-black/30 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-neutral-100">
+              <span key={tech} className="whitespace-nowrap rounded-full border border-white/25 bg-black/30 px-3 py-1 text-[9px] md:text-[11px] uppercase tracking-[0.14em] text-neutral-100">
                 {tech}
               </span>
             ))}
