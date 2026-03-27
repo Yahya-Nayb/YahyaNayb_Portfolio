@@ -63,7 +63,7 @@ const Hero = () => {
           </div>
           
           <div className="reveal-line overflow-hidden mt-[-2vw] relative flex flex-col items-center">
-            <h1 className="parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase text-transparent mb-[-9vw] clip-path-top"
+            <h1 className="parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase text-transparent mb-[-12vw] md:mb-[-9vw] clip-path-top"
                 style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.73)" }}>
               Digital
             </h1>
