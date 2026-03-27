@@ -1,14 +1,58 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Mail, MapPin, Send } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const leftColRef = useRef<HTMLDivElement>(null);
+  const rightColRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+        },
+      });
+
+      // Animate left side elements (Heading & Contact Info)
+      tl.from(leftColRef.current?.children || [], {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power4.out",
+      })
+      // Animate right side form card slightly sliding in from the right
+      .from(
+        rightColRef.current,
+        {
+          x: 60,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+        },
+        "-=0.7"
+      );
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section className="min-h-screen w-full bg-[#050505] flex items-center justify-center p-6 md:p-12">
+    <section 
+      ref={containerRef}
+      className="min-h-screen w-full bg-[#050505] flex items-center justify-center p-6 md:p-12 overflow-hidden"
+    >
       <div className="max-w-[1200px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         
         {/* Left Side: Text & Info */}
-        <div className="flex flex-col space-y-10">
+        <div ref={leftColRef} className="flex flex-col space-y-10">
           <h2 className="text-[clamp(3.5rem,8vw,6rem)] font-bold text-white leading-[1.1] tracking-tight">
             Let&apos;s build <br /> 
             something <br /> 
@@ -37,7 +81,7 @@ const Contact = () => {
         </div>
 
         {/* Right Side: Professional Form Card */}
-        <div className="flex justify-end">
+        <div ref={rightColRef} className="flex justify-end">
           <div className="w-full max-w-[480px] bg-[#0A0A0A] border border-white/5 rounded-[32px] p-8 md:p-12 shadow-2xl">
             <h3 className="text-xl font-bold text-white mb-8">Send a message</h3>
             
@@ -73,7 +117,7 @@ const Contact = () => {
               </div>
 
               {/* Submit Button - Orange Glow */}
-              <button className="w-full bg-white text-black font-bold py-5 rounded-full flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange-900/20">
+              <button className="w-full bg-white cursor-pointer text-black font-bold py-5 rounded-full flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange-900/20">
                 Send Message
                 <Send size={18} fill="currentColor" />
               </button>
