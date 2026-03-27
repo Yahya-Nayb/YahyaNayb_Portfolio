@@ -67,7 +67,7 @@ const Hero = () => {
                 style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.73)" }}>
               Digital
             </h1>
-            <h1 className="parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase select-none ml-4"
+            <h1 className="parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase select-none ml-2 md:ml-4"
                   style={{ 
                     clipPath: "inset(50% 0 0 0)",
                     color: "#e7e7e7ff",
