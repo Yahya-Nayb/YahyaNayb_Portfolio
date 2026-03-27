@@ -11,6 +11,14 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-archivo: var(--font-archivo);
+  --font-jetbrains: var(--font-jetbrains-mono);
+}
+
+@layer utilities {
+  .text-outline {
+    -webkit-text-stroke: 1.5px white;
+    color: transparent;
+  }
 }
 
 body {
