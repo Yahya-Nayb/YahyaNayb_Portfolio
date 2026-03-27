@@ -82,7 +82,11 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
               src={project.heroMockup}
               alt={`${project.title} main page mockup`}
               className="h-auto min-h-[130vh] w-full object-cover"
-              animate={{ y: ['0%', '-85%', '0%'] }}
+              animate={{ 
+                y: typeof window !== 'undefined' && window.innerWidth < 768 
+                  ? ['0%', '-55%', '0%']
+                  : ['0%', '-85%', '0%']
+              }}
               transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
             />
           </div>

@@ -7,27 +7,26 @@ const Hero = () => {
   const containerRef = useRef(null);
   const textRef = useRef(null);
 
-  useEffect(() => {
+ useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Reveal Animation for Text Lines
       gsap.from(".reveal-line", {
-        y: 150,
-        skewY: 7,
-        duration: 1.5,
-        ease: "expo.out",
-        stagger: 0.2,
+        y: 100,
+        skewY: 5,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power4.out",
+        stagger: 0.1,
       });
 
-      // 2. Subtle Mouse Parallax
       const handleMouseMove = (e: MouseEvent) => {
         const { clientX, clientY } = e;
-        const xPos = (clientX / window.innerWidth - 0.5) * 30;
-        const yPos = (clientY / window.innerHeight - 0.5) * 30;
+        const xPos = (clientX / window.innerWidth - 0.5) * 20;
+        const yPos = (clientY / window.innerHeight - 0.5) * 20;
 
         gsap.to(".parallax-text", {
           x: xPos,
           y: yPos,
-          duration: 1,
+          duration: 0.8,
           ease: "power2.out",
         });
       };
@@ -63,12 +62,12 @@ const Hero = () => {
             </h1>
           </div>
           
-          <div className="overflow-hidden mt-[-2vw] relative flex flex-col items-center">
-            <h1 className="reveal-line parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase text-transparent mb-[-9vw] clip-path-top"
+          <div className="reveal-line overflow-hidden mt-[-2vw] relative flex flex-col items-center">
+            <h1 className="parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase text-transparent mb-[-9vw] clip-path-top"
                 style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.73)" }}>
               Digital
             </h1>
-            <h1 className="reveal-line parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase transition-all duration-1000 select-none ml-4"
+            <h1 className="parallax-text text-[clamp(4rem,15vw,12rem)] font-black uppercase select-none ml-4"
                   style={{ 
                     clipPath: "inset(50% 0 0 0)",
                     color: "#e7e7e7ff",
@@ -76,7 +75,7 @@ const Hero = () => {
                     filter: "blur(0.5px) drop-shadow(0 0 5px rgba(255,255,255,0.02))", 
                   }}>
                 Digital
-              </h1>
+            </h1>
           </div>
           <div className="overflow-hidden mt-[-2vw] flex flex-col md:flex-row md:items-end gap-8">
             <h1 className="reveal-line text-[clamp(4rem,15vw,12rem)] font-black text-white uppercase">
