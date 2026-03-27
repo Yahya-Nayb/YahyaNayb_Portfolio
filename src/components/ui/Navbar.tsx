@@ -39,7 +39,7 @@ export default function Navbar() {
       </div>
       <div className="hidden md:block">
         <a
-          href="mailto:contact@yahyanayb.me"
+          href="mailto:yahyanayb08@gmail.com"
           className="text-xs font-medium uppercase tracking-widest text-white underline decoration-white/20 underline-offset-4 transition-colors hover:decoration-white">
           Let&apos;s talk
         </a>

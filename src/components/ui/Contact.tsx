@@ -47,7 +47,8 @@ const Contact = () => {
   return (
     <section 
       ref={containerRef}
-      className="min-h-screen w-full bg-[#050505] flex items-center justify-center p-6 md:p-12 overflow-hidden"
+      id="contact"
+      className="min-h-screen w-full bg-[#050505] flex items-center justify-center p-6 md:p-24 overflow-hidden"
     >
       <div className="max-w-[1200px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         

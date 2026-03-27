@@ -101,7 +101,7 @@ export default function TechStack() {
   );
 
   return (
-    <section ref={sectionRef} id="about" className="relative flex w-full flex-col items-center py-32 px-6 lg:px-24">
+    <section ref={sectionRef}  className="relative flex w-full flex-col items-center py-24 px-6 lg:px-24">
       {/* Background Decor */}
       <div className="absolute left-1/2 top-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.01] blur-3xl" />
 

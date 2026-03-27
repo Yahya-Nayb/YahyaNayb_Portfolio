@@ -143,7 +143,7 @@ export default function ExperienceTimeline() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative py-14 px-4 md:px-0 bg-black overflow-hidden">
+    <section ref={containerRef} id="about" className="relative py-24 px-4 md:px-0 bg-black overflow-hidden">
       <div className="max-w-6xl mx-auto mb-20 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
         <p className="text-neutral-400 max-w-2xl mx-auto">
