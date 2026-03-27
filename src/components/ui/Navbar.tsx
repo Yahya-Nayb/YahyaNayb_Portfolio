@@ -38,7 +38,8 @@ export default function Navbar() {
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden z-[110] text-white uppercase text-[10px] font-black tracking-[0.3em]"
         >
-          {isOpen ? 'Close' : 'Menu'}
+          {/* {isOpen ? 'Close' : 'Menu'} */}
+          Menu
         </button>
         <div className="hidden md:flex gap-8 text-xs font-medium uppercase tracking-widest text-neutral-400">
           {navLinks.map((link) => (
