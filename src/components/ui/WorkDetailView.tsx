@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import type { WorkProject } from '@/data/projects';
+import { X } from 'lucide-react';
 
 export default function WorkDetailView({ project }: { project: WorkProject }) {
   const mx = useMotionValue(0);
@@ -13,10 +14,39 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
   const ty = useMotionTemplate`${my}px`;
   const [galleryView, setGalleryView] = useState<'all' | 'desktop' | 'mobile'>('all');
 
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const galleryItems = galleryView === 'all' ? project.gallery : project.gallery.filter((item) => item.viewport === galleryView);
 
   return (
     <div className="bg-black text-white">
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md cursor-zoom-out"
+          >
+            <motion.button
+              className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X className="h-8 w-8" />
+            </motion.button>
+            
+            <motion.img
+              layoutId={selectedImage} 
+              src={selectedImage}
+              className="max-h-[90vh] max-w-full rounded-2xl object-contain shadow-2xl"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div
         className="fixed top-7 left-7 z-50"
         onMouseMove={(event) => {
@@ -52,7 +82,7 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
               src={project.heroMockup}
               alt={`${project.title} main page mockup`}
               className="h-auto min-h-[130vh] w-full object-cover"
-              animate={{ y: ['0%', '-38%', '0%'] }}
+              animate={{ y: ['0%', '-85%', '0%'] }}
               transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
             />
           </div>
@@ -67,7 +97,7 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
               <button
                 key={view}
                 onClick={() => setGalleryView(view)}
-                className={`rounded-full px-4 py-1.5 text-xs uppercase tracking-wider transition ${galleryView === view ? 'bg-white text-black' : 'text-neutral-300 hover:bg-white/10'}`}>
+                className={`rounded-full px-4 cursor-pointer py-1.5 text-xs uppercase tracking-wider transition ${galleryView === view ? 'bg-white text-black' : 'text-neutral-300 hover:bg-white/10'}`}>
                 {view}
               </button>
             ))}
@@ -81,13 +111,28 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="mt-8 columns-1 gap-4 md:columns-2">
-            {galleryItems.map((item) => (
-              <motion.figure key={item.id} layout whileHover={{ scale: 1.01 }} className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 p-2">
-                <img src={item.src} alt={item.alt} className="h-auto w-full rounded-xl object-cover" />
+            // className="mt-8 columns-1 gap-4 md:columns-2"
+            className={`mt-8 ${galleryItems.length > 0 ? "columns-1 gap-4 md:columns-2" : "flex flex-col items-center justify-center w-full"}`}
+            >
+            {galleryItems.length > 0 ? galleryItems.map((item) => (
+              <motion.figure key={item.id} layout whileHover={{ scale: 1.01 }} 
+              onClick={() => setSelectedImage(item.src)}
+              className="mb-4 break-inside-avoid overflow-hidden cursor-pointer rounded-2xl border border-white/10 bg-neutral-950 p-2">
+                <motion.img src={item.src} layoutId={item.src} alt={item.alt} className="h-auto w-full rounded-xl object-cover" />
                 <figcaption className="px-2 pb-1 pt-3 text-xs uppercase tracking-widest text-neutral-500">{item.viewport} view</figcaption>
               </motion.figure>
-            ))}
+            ))
+            :
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              className="py-20 text-center"
+            >
+              <h2 className="text-xl font-small tracking-tight text-neutral-500 md:text-md">
+                No {galleryView} images available for this project.
+              </h2>
+            </motion.div>
+          }
           </motion.div>
         </AnimatePresence>
       </section>

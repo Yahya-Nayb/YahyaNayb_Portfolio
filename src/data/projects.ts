@@ -25,31 +25,76 @@ export const WORK_PROJECTS: WorkProject[] = [
     id: 'ghayth',
     title: 'GhaythApp',
     tagline: 'Real-time property finance visibility.',
-    summary: 'Unified dashboards for transactions, budgets, and property-level analytics to replace fragmented manual spreadsheets.',
+    summary: 'A comprehensive web-based ecosystem designed to replace fragmented manual spreadsheets with unified dashboards for transactions, budgets, and property-level analytics.',
     tech: ['Next.js', 'Node.js', 'MongoDB', 'Tailwind CSS'],
-    challenge: 'The team had scattered workflows across spreadsheets and messaging tools, making auditing and forecasting unreliable.',
-    solution: 'Built a centralized full-stack platform with role-based flows, live transaction updates, and budget timelines tied to each property unit.',
-    features: ['Live transaction feed with status transitions', 'Budget planning and variance tracking per property', 'Audit-friendly activity timeline for every financial event'],
-    heroMockup: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=2000&q=80',
+    challenge: 'Management teams were struggling with scattered workflows across disconnected spreadsheets and messaging tools. This fragmentation made financial auditing unreliable and long-term forecasting nearly impossible due to data silos.',
+    solution: 'Engineered a centralized full-stack platform using Next.js and Node.js (Express). The system provides role-based flows and real-time transaction synchronization, allowing for a transparent and efficient decision-making process tied to each specific property unit.',
+    features: ['Real-time tracking of all transactions with automated status transitions.',
+       'Advanced planning and variance tracking per property to optimize expense management.',
+        'A transparent, immutable activity log for every financial event to ensure accountability.'],
+    heroMockup: '/images/ghaytapp/landing.png',
     gallery: [
       {
         id: 'ghayth-desktop-1',
-        src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80',
+        src: '/images/ghaytapp/ghaytMain.png',
         alt: 'GhaythApp desktop analytics dashboard',
         viewport: 'desktop',
       },
-      {
-        id: 'ghayth-mobile-1',
-        src: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80',
-        alt: 'GhaythApp mobile transaction timeline',
-        viewport: 'mobile',
-      },
-      {
+            {
         id: 'ghayth-desktop-2',
-        src: 'https://images.unsplash.com/photo-1551281044-8b6f4f88c4ab?auto=format&fit=crop&w=1600&q=80',
-        alt: 'GhaythApp desktop budgeting module',
+        src: '/images/ghaytapp/homear.png',
+        alt: 'GhaythApp desktop analytics dashboard',
         viewport: 'desktop',
       },
+            {
+        id: 'ghayth-desktop-3',
+        src: '/images/ghaytapp/users.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+            {
+        id: 'ghayth-desktop-4',
+        src: '/images/ghaytapp/units.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+            {
+        id: 'ghayth-desktop-5',
+        src: '/images/ghaytapp/subs.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+            {
+        id: 'ghayth-desktop-6',
+        src: '/images/ghaytapp/bank.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+            {
+        id: 'ghayth-desktop-7',
+        src: '/images/ghaytapp/expenses.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+            {
+        id: 'ghayth-desktop-8',
+        src: '/images/ghaytapp/recepts.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+      
+                 {
+        id: 'ghayth-desktop-9',
+        src: '/images/ghaytapp/fullprofilepage.png',
+        alt: 'GhaythApp desktop analytics dashboard',
+        viewport: 'desktop',
+      },
+      // {
+      //   id: 'ghayth-mobile-1',
+      //   src: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80',
+      //   alt: 'GhaythApp mobile transaction timeline',
+      //   viewport: 'mobile',
+      // },
     ],
     accent: 'from-cyan-400/25 to-blue-500/15',
     gridClassName: 'md:col-span-2 md:row-span-2',
@@ -58,11 +103,15 @@ export const WORK_PROJECTS: WorkProject[] = [
     id: 'freelance',
     title: 'Freelance Hub',
     tagline: 'Faster client-freelancer execution loop.',
-    summary: 'A trust-first workspace that merges project discovery, chat, and delivery flow into one real-time product.',
-    tech: ['React', 'Laravel', 'Socket.io', 'MySQL'],
-    challenge: 'Service negotiations and project updates were delayed due to fragmented communication and inconsistent status visibility.',
-    solution: 'Designed an event-driven platform with instant messaging, delivery checkpoints, and clear engagement lifecycle states.',
-    features: ['Real-time conversation threads with online presence', 'Milestone-based delivery workflow with acceptance states', 'Client + freelancer profile trust indicators'],
+    summary: "A specialized workspace that integrates project discovery, instant communication, and delivery workflows into a single, high-performance real-time product.",
+    tech: ["React", "Laravel", "Socket.io", "Node.js", "MySQL", "Tailwind CSS"],
+    challenge: "In traditional freelance environments, service negotiations and project updates are often delayed by fragmented communication. This leads to inconsistent status visibility and friction during critical delivery phases.",
+    solution: "I designed an event-driven platform that bridges the gap between client and freelancer. By leveraging Socket.io and Laravel, I implemented an instant messaging system and a milestone-based delivery flow, ensuring the entire lifecycle is tracked in real-time.",
+    features: [
+      "Real-time conversation threads with live presence indicators and message status.",
+      "A structured workflow with clear checkpoints and acceptance states for project handovers.",
+      "Integrated rating and review modules with dynamic profile trust indicators.",
+    ],
     heroMockup: 'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=2000&q=80',
     gallery: [
       {
@@ -83,13 +132,17 @@ export const WORK_PROJECTS: WorkProject[] = [
   },
     {
     id: 'domainhunt',
-    title: 'DomainHunt',
-    tagline: 'AI-assisted domain opportunity scoring.',
-    summary: 'Helps domain investors filter, score, and shortlist names based on trend and linguistic signals.',
-    tech: ['Next.js', 'AI APIs', 'Tailwind CSS'],
-    challenge: 'Domain discovery was noisy and repetitive, with no reliable way to prioritize high-potential names quickly.',
-    solution: 'Implemented a scoring engine with contextual filters and a streamlined shortlist workflow focused on decision velocity.',
-    features: ['Search + filter pipeline for large candidate sets', 'AI-assisted scoring and relevance hints', 'One-click shortlist and export flow'],
+    title: "DomainHunt",
+    tagline: "High-fidelity branding engine for premium domain discovery.",
+    summary: "A specialized tool for domainers and brand strategists to generate, score, and validate ultra-short, 'Radio-Call' compliant .com names.",
+    tech: ["Next.js", "Llama 3.3", "Tailwind CSS", "Supabase", "Framer Motion"],
+    challenge: "Domain generation is often cluttered with low-quality, multi-word names and phonetic ambiguities that dilute brand value.",
+    solution: "Developed a 'Zero-Affix' scoring engine that enforces a strict Two-Word Rule and phonetic filtering to ensure every result is a dictionary-grade, memorable brand.",
+    features: [
+        "Phonetic Integrity Filter (Banning silent letters and ambiguous spellings)",
+        "Contextual Anchor Logic for multi-word niches",
+        "Instant DNS validation pipeline with high-velocity decision scoring",
+    ],
     heroMockup: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2000&q=80',
     gallery: [
       {
@@ -112,12 +165,16 @@ export const WORK_PROJECTS: WorkProject[] = [
   {
     id: 'velostream',
     title: 'VeloStream',
-    tagline: 'High-speed media processing pipeline.',
-    summary: 'A compact interface for fast media download and conversion, optimized around asynchronous server workflows.',
-    tech: ['Next.js','Tailwind CSS', 'yt-dlp'],
-    challenge: 'Users needed a fast and minimal workflow for media fetching without exposing complex backend tooling.',
-    solution: 'Created a queue-based processing flow with clear state updates and resilient error handling around external CLI operations.',
-    features: ['Asynchronous processing queue with live status', 'Format presets for download and conversion', 'Resilient retry logic for unstable source links'],
+    tagline: "The Ultimate Universal Media Downloader.",
+    summary: "A powerful, all-in-one tool designed to grab high-quality videos and audio from YouTube, Social Media, and other platforms with a single click.",
+    tech: ["Next.js","yt-dlp", "Tailwind CSS"],
+    challenge: "Most video downloaders are full of ads, slow, or limited to specific sites, making it hard for users to get their favorite content safely.",
+    solution: "Built a clean, lightning-fast interface that handles the complex 'tech stuff' in the background, giving users a simple way to save media in any format.",
+    features: [
+        "Download from YouTube, Instagram, TikTok, Twitter, and more",
+        "Simple 'Paste & Go' workflow with no distracting ads",
+        "Works perfectly on mobile and desktop browsers"
+    ],
     heroMockup: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=2000&q=80',
     gallery: [
       {
@@ -140,12 +197,16 @@ export const WORK_PROJECTS: WorkProject[] = [
   {
     id: 'gescanner',
     title: 'GeScanner',
-    tagline: 'AI-powered data extraction & insights.',
-    summary: 'A high-velocity utility designed to automate document scanning and convert complex unstructured inputs into actionable, structured data.',
-    tech: ['Next.js', 'Tailwind CSS'],
-    challenge: 'Users struggled with manual data entry from physical and digital documents, leading to high error rates and wasted operational time.',
-    solution: 'Developed an intelligent scanning engine using advanced AI vision models to parse, categorize, and extract key entities with high precision.',
-    features: ['Real-time OCR and entity extraction pipeline', 'Automated categorization with AI-driven confidence scoring', 'Export-ready structured outputs for CRM and Database integration'],
+    tagline: "High-velocity data extraction and structured insights.",
+    summary: "An automated document processing utility engineered to parse complex unstructured inputs and transform them into verifiable, structured datasets.",
+    tech: ["Next.js", "Tailwind CSS", "Tesseract.js", "Node.js", "Framer Motion"],
+    challenge: "Fragmented data sources and manual entry workflows resulted in high operational latency and significant data integrity issues.",
+    solution: "Developed a custom scanning engine utilizing optical character recognition (OCR) and pattern matching to extract and categorize entities with high technical precision.",
+    features: [
+    "Asynchronous OCR and entity extraction pipeline",
+    "Automated data categorization with confidence-based validation",
+    "Optimized low-latency dashboard for real-time processing"
+    ], 
     heroMockup: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=2000&q=80',
     gallery: [
       {
@@ -168,7 +229,7 @@ export const WORK_PROJECTS: WorkProject[] = [
       },
     ],
     accent: 'from-neutral-500/25 to-neutral-700/15',
-    gridClassName: 'md:col-span-1', // يمكنك تغييرها لـ md:col-span-2 إذا أردت إعطاءه مساحة أكبر في الشبكة
+    gridClassName: 'md:col-span-1',
   },
 ];
 

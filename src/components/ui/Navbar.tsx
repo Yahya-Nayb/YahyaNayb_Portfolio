@@ -24,7 +24,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav ref={navRef} className="fixed top-0 z-50 flex w-full items-center justify-between px-8 py-6 backdrop-blur-md">
+    <nav ref={navRef} className="fixed top-0 z-50 flex w-full items-center justify-between md:px-8 py-6 backdrop-blur-md">
       <div className="text-xl font-bold tracking-tighter cursor-pointer">YN.</div>
       <div className="flex gap-8 text-xs font-medium uppercase tracking-widest text-neutral-400">
         <a href="#work" className="transition-colors hover:text-white">
