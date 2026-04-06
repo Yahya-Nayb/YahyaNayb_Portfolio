@@ -69,7 +69,6 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
         <div className="flex justify-between items-center">
           <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">Case Study</p>
           <div className="flex flex-wrap gap-4 mt-8">
-            {/* زر الـ Live Demo */}
             {project.demo && (
               <a
                 href={project.demo}
@@ -77,11 +76,10 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold uppercase tracking-widest text-black transition-transform hover:scale-105 active:scale-95">
                 <ExternalLink size={14} />
-                Live Demo
+                <p className="hidden md:flex">Live Demo</p>
               </a>
             )}
 
-            {/* زر الـ GitHub */}
             {project.github && (
               <a
                 href={project.github}
@@ -89,7 +87,7 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
                 <Github size={14} />
-                Source Code
+                <p className="hidden md:flex">Source Code</p>
               </a>
             )}
           </div>
@@ -141,7 +139,6 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            /* التعديل هنا: استخدمنا grid بدلاً من columns لضمان تساوي الارتفاع في كل صف */
             className={`mt-8 ${galleryItems.length > 0 ? 'grid grid-cols-1 gap-4 md:grid-cols-2' : 'flex flex-col items-center justify-center w-full'}`}>
             {galleryItems.length > 0 ? (
               galleryItems.map((item) => (
@@ -151,7 +148,6 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
                   whileHover={{ scale: 1.01 }}
                   onClick={() => setSelectedImage(item.src)}
                   className="overflow-hidden cursor-pointer rounded-2xl border border-white/10 bg-neutral-950 p-2">
-                  {/* التعديل هنا: حاوية تثبت الحجم (4/3) وتستخدم object-cover لملء الفراغ */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-neutral-900">
                     <motion.img src={item.src} layoutId={item.src} alt={item.alt} className="h-full w-full object-cover object-top" />
                   </div>
