@@ -115,9 +115,10 @@ const Contact = () => {
           <div className="w-full max-w-[480px] bg-[#0A0A0A] border border-white/5 rounded-[32px] p-8 md:p-12 shadow-2xl">
             <h3 className="text-xl font-bold text-white mb-8">Send a message</h3>
 
-            <form className="space-y-6" name="contact" method="POST" onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
+            <form className="space-y-6" name="contact" method="POST" onSubmit={handleSubmit} data-netlify-honeypot="bot-field">
               {/* Name Input */}
               <input type="hidden" name="form-name" value="contact" />
+
               <p className="hidden">
                 <label>
                   Don’t fill this out if you’re human: <input name="bot-field" />
