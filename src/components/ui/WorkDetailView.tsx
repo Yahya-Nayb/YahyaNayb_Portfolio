@@ -97,17 +97,18 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
       </motion.header>
 
       <section className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
-        <div className="rounded-3xl border border-white/10 bg-neutral-950 p-3 md:p-4">
-          <div className="relative h-[50vh] md:h-[65vh] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]">
+        <div className="rounded-3xl border border-white/10 bg-neutral-950 p-2 md:p-4">
+          <div className="relative h-[15vh] sm:h-[35vh] md:h-[65vh] overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a]">
             <motion.img
               src={project.heroMockup}
               alt={project.title}
-              className="mx-auto h-full w-full object-cover"
+              className="h-full w-full object-cover object-top will-change-[object-position]"
+              initial={{ objectPosition: '0% 0%' }}
               animate={{
                 objectPosition: ['0% 0%', '0% 100%', '0% 0%'],
               }}
               transition={{
-                duration: 20,
+                duration: 15,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}

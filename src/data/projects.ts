@@ -187,19 +187,25 @@ export const WORK_PROJECTS: WorkProject[] = [
     heroMockup: '/images/velostream/main.png',
     gallery: [
       {
+        id: 'velostream-desktop-0',
+        src: '/images/velostream/main.png',
+        alt: 'VeloStream desktop processing queue',
+        viewport: 'desktop',
+      },
+      {
         id: 'velostream-desktop-1',
         src: '/images/velostream/res.png',
         alt: 'VeloStream desktop processing queue',
         viewport: 'desktop',
       },
       {
-        id: 'velostream-mobile-1',
+        id: 'velostream-mobile-2',
         src: '/images/velostream/velo_mobile1.png',
         alt: 'VeloStream mobile quick actions',
         viewport: 'mobile',
       },
       {
-        id: 'velostream-mobile-1',
+        id: 'velostream-mobile-3',
         src: '/images/velostream/velo_mobile.png',
         alt: 'VeloStream mobile quick actions',
         viewport: 'mobile',
