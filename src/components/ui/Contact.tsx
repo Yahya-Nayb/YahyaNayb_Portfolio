@@ -16,7 +16,6 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('sending');
-
     const formData = new FormData(e.currentTarget);
     const params = new URLSearchParams();
 
@@ -29,7 +28,7 @@ const Contact = () => {
     const body = params.toString();
 
     try {
-      const response = await fetch('/', {
+      const response = await fetch('/contactForm.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body,
