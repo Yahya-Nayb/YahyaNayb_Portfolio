@@ -98,12 +98,11 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
 
       <section className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
         <div className="rounded-3xl border border-white/10 bg-neutral-950 p-3 md:p-4">
-          <div className="relative h-[65vh] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]">
+          <div className="relative h-[50vh] md:h-[65vh] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]">
             <motion.img
               src={project.heroMockup}
               alt={project.title}
-              className="h-full w-full object-cover"
-              initial={{ objectPosition: 'top' }}
+              className="mx-auto h-full w-full object-cover"
               animate={{
                 objectPosition: ['0% 0%', '0% 100%', '0% 0%'],
               }}
