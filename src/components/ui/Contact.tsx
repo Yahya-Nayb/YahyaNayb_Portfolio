@@ -25,7 +25,9 @@ const Contact = () => {
     params.set('form-name', 'contact');
 
     formData.forEach((value, key) => {
-      if (typeof value === 'string') {
+      if (key === 'bot-field') {
+        params.append(key, '');
+      } else if (typeof value === 'string') {
         params.set(key, value);
       }
     });
