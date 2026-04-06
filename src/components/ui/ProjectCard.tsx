@@ -24,8 +24,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           y.set(event.clientY - rect.top);
         }}
         className="group relative block h-full overflow-hidden rounded-3xl border border-white/10 bg-neutral-950">
-        <motion.div aria-hidden className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: spotlight }} />
-
         <div className="absolute inset-0">
           <img src={project.heroMockup} alt={`${project.title} preview`} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:brightness-110" />
           <div className="absolute inset-0 bg-black/45" />

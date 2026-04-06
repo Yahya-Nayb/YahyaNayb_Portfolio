@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import type { WorkProject } from '@/data/projects';
 import { X } from 'lucide-react';
 
@@ -27,17 +27,13 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md cursor-zoom-out"
-          >
-            <motion.button
-              className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors"
-              onClick={() => setSelectedImage(null)}
-            >
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md cursor-zoom-out">
+            <motion.button className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors" onClick={() => setSelectedImage(null)}>
               <X className="h-8 w-8" />
             </motion.button>
-            
+
             <motion.img
-              layoutId={selectedImage} 
+              layoutId={selectedImage}
               src={selectedImage}
               className="max-h-[90vh] max-w-full rounded-2xl object-contain shadow-2xl"
               initial={{ scale: 0.9, y: 20 }}
@@ -70,24 +66,54 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
         </Link>
       </motion.div>
       <motion.header layout className="mx-auto max-w-7xl px-6 pb-10 pt-28 md:px-10 lg:px-16">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">Case Study</p>
+        <div className="flex justify-between items-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">Case Study</p>
+          <div className="flex flex-wrap gap-4 mt-8">
+            {/* زر الـ Live Demo */}
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold uppercase tracking-widest text-black transition-transform hover:scale-105 active:scale-95">
+                <ExternalLink size={14} />
+                Live Demo
+              </a>
+            )}
+
+            {/* زر الـ GitHub */}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
+                <Github size={14} />
+                Source Code
+              </a>
+            )}
+          </div>
+        </div>
         <h1 className="mt-5 text-5xl font-semibold tracking-tight md:text-7xl">{project.title}</h1>
         <p className="mt-5 max-w-3xl text-base text-neutral-300 md:text-lg">{project.summary}</p>
       </motion.header>
 
       <section className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
         <div className="rounded-3xl border border-white/10 bg-neutral-950 p-3 md:p-4">
-          <div className="relative h-[65vh] overflow-hidden rounded-2xl border border-white/10">
+          <div className="relative h-[65vh] overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]">
             <motion.img
               src={project.heroMockup}
-              alt={`${project.title} main page mockup`}
-              className="h-auto min-h-[130vh] w-full object-cover"
-              animate={{ 
-                y: typeof window !== 'undefined' && window.innerWidth < 768 
-                  ? ['0%', '-55%', '0%']
-                  : ['0%', '-85%', '0%']
+              alt={project.title}
+              className="h-full w-full object-cover"
+              initial={{ objectPosition: 'top' }}
+              animate={{
+                objectPosition: ['0% 0%', '0% 100%', '0% 0%'],
               }}
-              transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
             />
           </div>
         </div>
@@ -115,28 +141,29 @@ export default function WorkDetailView({ project }: { project: WorkProject }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            // className="mt-8 columns-1 gap-4 md:columns-2"
-            className={`mt-8 ${galleryItems.length > 0 ? "columns-1 gap-4 md:columns-2" : "flex flex-col items-center justify-center w-full"}`}
-            >
-            {galleryItems.length > 0 ? galleryItems.map((item) => (
-              <motion.figure key={item.id} layout whileHover={{ scale: 1.01 }} 
-              onClick={() => setSelectedImage(item.src)}
-              className="mb-4 break-inside-avoid overflow-hidden cursor-pointer rounded-2xl border border-white/10 bg-neutral-950 p-2">
-                <motion.img src={item.src} layoutId={item.src} alt={item.alt} className="h-auto w-full rounded-xl object-cover" />
-                <figcaption className="px-2 pb-1 pt-3 text-xs uppercase tracking-widest text-neutral-500">{item.viewport} view</figcaption>
-              </motion.figure>
-            ))
-            :
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              className="py-20 text-center"
-            >
-              <h2 className="text-xl font-small tracking-tight text-neutral-500 md:text-md">
-                No {galleryView} images available for this project.
-              </h2>
-            </motion.div>
-          }
+            /* التعديل هنا: استخدمنا grid بدلاً من columns لضمان تساوي الارتفاع في كل صف */
+            className={`mt-8 ${galleryItems.length > 0 ? 'grid grid-cols-1 gap-4 md:grid-cols-2' : 'flex flex-col items-center justify-center w-full'}`}>
+            {galleryItems.length > 0 ? (
+              galleryItems.map((item) => (
+                <motion.figure
+                  key={item.id}
+                  layout
+                  whileHover={{ scale: 1.01 }}
+                  onClick={() => setSelectedImage(item.src)}
+                  className="overflow-hidden cursor-pointer rounded-2xl border border-white/10 bg-neutral-950 p-2">
+                  {/* التعديل هنا: حاوية تثبت الحجم (4/3) وتستخدم object-cover لملء الفراغ */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-neutral-900">
+                    <motion.img src={item.src} layoutId={item.src} alt={item.alt} className="h-full w-full object-cover object-top" />
+                  </div>
+
+                  <figcaption className="px-2 pb-1 pt-3 text-xs uppercase tracking-widest text-neutral-500">{item.viewport} view</figcaption>
+                </motion.figure>
+              ))
+            ) : (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-20 text-center w-full col-span-full">
+                <h2 className="text-xl font-small tracking-tight text-neutral-500 md:text-md">No {galleryView} images available for this project.</h2>
+              </motion.div>
+            )}
           </motion.div>
         </AnimatePresence>
       </section>
