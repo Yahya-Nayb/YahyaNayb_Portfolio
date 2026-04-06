@@ -16,37 +16,37 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('sending');
-    const formData = new FormData(e.currentTarget);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
     const params = new URLSearchParams();
+
+    params.set('form-name', 'contact');
 
     formData.forEach((value, key) => {
       if (typeof value === 'string') {
-        params.append(key, value);
+        params.set(key, value);
       }
     });
-
-    const body = params.toString();
 
     try {
       const response = await fetch('/contactForm.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body,
+        body: params.toString(),
       });
 
       if (response.ok) {
         setStatus('ok');
-        e.currentTarget.reset();
-        setTimeout(() => {
-          setStatus(null);
-        }, 60000);
+        form.reset();
+        setTimeout(() => setStatus(null), 10000);
       } else {
         setStatus('error');
-        setTimeout(() => setStatus(null), 60000);
       }
-    } catch {
+    } catch (err) {
+      console.error('Submission error:', err);
       setStatus('error');
-      setTimeout(() => setStatus(null), 60000);
     }
   };
   useGSAP(
