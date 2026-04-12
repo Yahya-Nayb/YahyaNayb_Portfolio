@@ -8,6 +8,7 @@ import Projects from '@/components/ui/Projects';
 import Contact from '@/components/ui/Contact';
 import Footer from '@/components/ui/Footer';
 import NoiseOverlay from '@/components/ui/NoiseOverlay';
+import TechTicker from '@/components/ui/TechTicker';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col bg-black">
         <Hero />
+        <TechTicker />
         <TechStack />
         <ExperienceTimeline />
         <Projects />
