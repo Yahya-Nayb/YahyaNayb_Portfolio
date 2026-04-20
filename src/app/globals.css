@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #000000;
@@ -51,13 +51,21 @@ html.lenis body {
 }
 
 @keyframes gradient-x {
-  0% { bg-position: 0% 50%; }
-  100% { bg-position: 200% 50%; }
+  0% {
+    bg-position: 0% 50%;
+  }
+  100% {
+    bg-position: 200% 50%;
+  }
 }
 
 .animate-gradient-x {
   animation: gradient-x 3s linear infinite;
 }
 
-.clip-path-top { clip-path: inset(0 0 50% 0); }
-.clip-path-bottom { clip-path: inset(50% 0 0 0); }
+.clip-path-top {
+  clip-path: inset(0 0 50% 0);
+}
+.clip-path-bottom {
+  clip-path: inset(50% 0 0 0);
+}

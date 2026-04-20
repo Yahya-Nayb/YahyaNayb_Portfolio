@@ -255,7 +255,7 @@ export const WORK_PROJECTS: WorkProject[] = [
     accent: 'from-neutral-500/25 to-neutral-700/15',
     gridClassName: 'md:col-span-1',
     github: 'https://github.com/Yahya-Nayb/Qr-Code-Scanner',
-    demo: 'https://ynscanner.vercel.app',
+    demo: 'https://ynscanner.netlify.app',
   },
 ];
 

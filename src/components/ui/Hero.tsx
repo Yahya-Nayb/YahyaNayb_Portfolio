@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ArrowUpRight, Link } from 'lucide-react';
-import TechTicker from './TechTicker';
+import { Download, ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   const containerRef = useRef(null);
@@ -80,7 +80,7 @@ const Hero = () => {
             {/* Job Title / Subheading */}
             <div className="reveal-line mb-[2vw] max-w-sm">
               <p className="font-mono text-[12px] leading-relaxed text-neutral-400 uppercase tracking-widest">
-                [ Full Stack Architect ] <br />
+                [ Full Stack Web Developer ] <br />
                 Specialized in High-Performance <br />
                 Next.js & Node JS & Laravel Ecosystems.
               </p>
@@ -90,10 +90,11 @@ const Hero = () => {
 
         {/* CTA Section */}
         <div className="mt-16 flex items-center gap-12 overflow-hidden">
-          <a href="/#work" className="reveal-line group relative flex items-center gap-4 cursor-pointer text-white hover:text-neutral-400 transition-colors">
-            <span className="text-sm font-bold uppercase tracking-widest">View My Work</span>
+          <a href="/YAHYA_NAYB_CV.pdf" download="YAHYA_NAYB_CV.pdf" target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-6 cursor-pointer">
+            {' '}
+            <span className="text-sm font-bold uppercase tracking-widest">Download My CV</span>
             <div className="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-              <ArrowUpRight size={20} />
+              <Download size={20} />
             </div>
           </a>
         </div>
